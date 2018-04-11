@@ -1,9 +1,14 @@
 from distutils.core import setup
 
+def readme():
+    with open('README.md') as f:
+        return f.read()
+
 setup(
     name='django-enhanced-emails',
-    version='0.0.1',
+    version='0.0.2',
     description='Enhanced email classes for Django',
+    long_description=readme(),
     author='Nathan Gaberel',
     author_email='nathang@theodo.co.uk',
     classifiers=[
