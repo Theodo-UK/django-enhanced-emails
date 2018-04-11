@@ -1,4 +1,4 @@
-from distutils.core import setup
+from setuptools import setup
 
 def readme():
     with open('README.md') as f:
@@ -6,9 +6,10 @@ def readme():
 
 setup(
     name='django-enhanced-emails',
-    version='0.0.2',
+    version='0.0.4',
     description='Enhanced email classes for Django',
     long_description=readme(),
+    long_description_content_type='text/markdown',
     author='Nathan Gaberel',
     author_email='nathang@theodo.co.uk',
     classifiers=[
@@ -26,6 +27,7 @@ setup(
     packages=[
         'enhanced_emails',
     ],
+    setup_requires=['setuptools>=38.6.0'],
     install_requires=[
         'bs4',
         'django',

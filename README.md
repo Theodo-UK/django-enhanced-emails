@@ -61,3 +61,7 @@
   The OurSite team
   --===============7747654958126582044==--
   ```
+
+## Development
+
+- Deploy: `python setup.py sdist && twine upload dist/*`
