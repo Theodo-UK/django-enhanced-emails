@@ -34,7 +34,7 @@ class EnhancedEmail(EmailMultiAlternatives):
     def get_subject(self):
         """Returns the subject line of the email.
         Meant to be overriden for dynamic subjects.
-        """"
+        """
         return self.subject
 
     def get_txt_template(self):

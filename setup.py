@@ -6,7 +6,7 @@ def readme():
 
 setup(
     name='django-enhanced-emails',
-    version='0.0.5',
+    version='0.0.6',
     description='Enhanced email classes for Django',
     long_description=readme(),
     long_description_content_type='text/markdown',
@@ -23,7 +23,7 @@ setup(
     ],
     keywords='class based emails django',
     url='https://github.com/Theodo-UK/django-enhanced-emails',
-    license='MIT',
+    license='Theodo',
     packages=[
         'enhanced_emails',
     ],
