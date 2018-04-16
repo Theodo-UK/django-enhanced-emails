@@ -6,7 +6,7 @@ def readme():
 
 setup(
     name='django-enhanced-emails',
-    version='0.0.4',
+    version='0.0.5',
     description='Enhanced email classes for Django',
     long_description=readme(),
     long_description_content_type='text/markdown',
