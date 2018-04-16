@@ -4,8 +4,9 @@ from django.template.loader import render_to_string
 
 
 class EnhancedEmail(EmailMultiAlternatives):
-    """A magic email classes that supports multi alternatives (text & html by default),
-    attachments, rendering templates, etc.
+    """
+    A magic email classes that supports multi alternatives (text & html by
+    default), attachments, rendering templates, etc.
     """
 
     attached_files = []
@@ -42,8 +43,8 @@ class EnhancedEmail(EmailMultiAlternatives):
 
     def get_txt_content(self):
         """Returns the text content of the email.
-        Tries to render the text template with the context if it exists, otherwise
-        extracts text from the html content.
+        Tries to render the text template with the context if it exists,
+        otherwise extracts text from the html content.
         """
         txt_template = self.get_txt_template()
 

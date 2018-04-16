@@ -13,6 +13,7 @@ twine = "*"
 
 [dev-packages]
 
+"flake8" = "*"
 
 
 [requires]
