@@ -1,0 +1,23 @@
+version: 2
+
+jobs:
+  build:
+    working_directory: ~/dee
+
+    docker:
+      - image: python:3.6
+
+    steps:
+      - checkout
+
+      - run:
+          name: Install pipenv
+          command: pip install pipenv
+
+      - run:
+          name: Install deps
+          command: pipenv install --system --dev
+
+      - run:
+          name: Lint
+          command: flake8 .
