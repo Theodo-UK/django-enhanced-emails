@@ -1,12 +1,17 @@
-version: 2
+version: "2.1"
 
-jobs:
-  build:
+executors:
+  py36:
     working_directory: ~/dee
-
     docker:
       - image: python:3.6
+  py37:
+    working_directory: ~/dee
+    docker:
+      - image: python:3.7
 
+commands:
+  stack:
     steps:
       - checkout
 
@@ -29,3 +34,17 @@ jobs:
       - run:
           name: Lint
           command: flake8 .
+
+jobs:
+  py36:
+    executor: py36
+    steps: stack
+  py37:
+    executor: py37
+    steps: stack
+
+workflows:
+  stack:
+    jobs:
+      - py36
+      - py37
