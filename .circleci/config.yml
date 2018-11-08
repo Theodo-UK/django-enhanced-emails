@@ -12,11 +12,19 @@ jobs:
 
       - run:
           name: Install pipenv
-          command: pip install pipenv
+          command: pip install pipenv black
 
       - run:
           name: Install deps
           command: pipenv install --system --dev
+
+      - run:
+          name: Check for security vulnerabilities
+          command: pipenv check
+
+      - run:
+          name: Check format
+          command: black --diff --check .
 
       - run:
           name: Lint

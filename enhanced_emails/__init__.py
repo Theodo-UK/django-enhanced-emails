@@ -1,6 +1,4 @@
 from .base import EnhancedEmail
 
 
-__all__ = [
-    'EnhancedEmail'
-]
+__all__ = ["EnhancedEmail"]

@@ -23,10 +23,7 @@ class EnhancedEmail(EmailMultiAlternatives):
             *args,
             **kwargs
         )
-        self.attach_alternative(
-            self.get_html_content(),
-            'text/html'
-        )
+        self.attach_alternative(self.get_html_content(), "text/html")
 
         # Automatically attach files.
         for file in self.attached_files:
@@ -39,7 +36,7 @@ class EnhancedEmail(EmailMultiAlternatives):
         return self.subject
 
     def get_txt_template(self):
-        return getattr(self, 'txt_template', None)
+        return getattr(self, "txt_template", None)
 
     def get_txt_content(self):
         """Returns the text content of the email.
@@ -49,12 +46,9 @@ class EnhancedEmail(EmailMultiAlternatives):
         txt_template = self.get_txt_template()
 
         if txt_template:
-            return render_to_string(
-                txt_template,
-                self.context
-            )
+            return render_to_string(txt_template, self.context)
         else:
-            soup = BeautifulSoup(self.get_html_content(), 'html.parser')
+            soup = BeautifulSoup(self.get_html_content(), "html.parser")
             return soup.get_text()
 
     def get_html_template(self):
@@ -64,7 +58,4 @@ class EnhancedEmail(EmailMultiAlternatives):
         """Returns the html content of the email.
         Renders the html templates with the context.
         """
-        return render_to_string(
-            self.get_html_template(),
-            self.context
-        )
+        return render_to_string(self.get_html_template(), self.context)
