@@ -1,17 +1,17 @@
-version: "2.1"
+version: 2.1
 
 executors:
-  py36:
-    working_directory: ~/dee
-    docker:
-      - image: python:3.6
-  py37:
+  python:
     working_directory: ~/dee
     docker:
       - image: python:3.7
 
 commands:
-  stack:
+  all:
+    parameters:
+      version:
+        type: string
+
     steps:
       - checkout
 
@@ -21,7 +21,7 @@ commands:
 
       - run:
           name: Install deps
-          command: pipenv install --system --dev
+          command: pipenv install --python << parameters.version >> --system --dev
 
       - run:
           name: Check for security vulnerabilities
@@ -33,18 +33,26 @@ commands:
 
       - run:
           name: Lint
-          command: flake8 .
+          command: pipenv run flake8 .
 
 jobs:
-  py36:
-    executor: py36
-    steps: stack
-  py37:
-    executor: py37
-    steps: stack
+  python:
+    parameters:
+      version:
+        type: string
+    executor: python
+    steps:
+      - all:
+          version: << parameters.version >>
 
 workflows:
   stack:
     jobs:
-      - py36
-      - py37
+      - python:
+          version: "3.4"
+      - python:
+          version: "3.5"
+      - python:
+          version: "3.6"
+      - python:
+          version: "3.7"
