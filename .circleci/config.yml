@@ -49,6 +49,8 @@ workflows:
   stack:
     jobs:
       - python:
+          version: "2.7"
+      - python:
           version: "3.4"
       - python:
           version: "3.5"
