@@ -17,7 +17,7 @@ commands:
 
       - run:
           name: Install pipenv
-          command: pip install pipenv black
+          command: pip install pipenv
 
       - run:
           name: Install deps
@@ -29,7 +29,7 @@ commands:
 
       - run:
           name: Check format
-          command: black --diff --check .
+          command: pipenv run black --diff --check .
 
       - run:
           name: Lint
