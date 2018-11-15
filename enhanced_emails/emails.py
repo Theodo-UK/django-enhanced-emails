@@ -13,8 +13,7 @@ class EnhancedEmail(EmailMultiAlternatives):
     base_context = {}
 
     def __init__(self, to, context, *args, **kwargs):
-        self.context = dict(self.base_context)
-        self.context.update(context)
+        self._context = context
 
         super().__init__(
             subject=self.get_subject(),
@@ -28,6 +27,11 @@ class EnhancedEmail(EmailMultiAlternatives):
         # Automatically attach files.
         for file in self.attached_files:
             self.attach_file(file)
+
+    def get_context(self, **kwargs):
+        kwargs.update(self.base_context)
+        kwargs.update(self._context)
+        return kwargs
 
     def get_subject(self):
         """Returns the subject line of the email.
@@ -46,7 +50,7 @@ class EnhancedEmail(EmailMultiAlternatives):
         txt_template = self.get_txt_template()
 
         if txt_template:
-            return render_to_string(txt_template, self.context)
+            return render_to_string(txt_template, self.get_context())
         else:
             soup = BeautifulSoup(self.get_html_content(), "html.parser")
             return soup.get_text()
@@ -58,4 +62,4 @@ class EnhancedEmail(EmailMultiAlternatives):
         """Returns the html content of the email.
         Renders the html templates with the context.
         """
-        return render_to_string(self.get_html_template(), self.context)
+        return render_to_string(self.get_html_template(), self.get_context())
