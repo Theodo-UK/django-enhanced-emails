@@ -63,3 +63,37 @@ class EnhancedEmail(EmailMultiAlternatives):
         Renders the html templates with the context.
         """
         return render_to_string(self.get_html_template(), self.get_context())
+
+
+class WebVersionMixin(object):
+    web_version = True
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop("request")
+        super().__init__(*args, **kwargs)
+
+    def get_context(self, **kwargs):
+        if self.web_version:
+            from .models import SentEmail
+
+            self.instance = SentEmail()
+            absolute_url = self.request.build_absolute_uri(
+                self.instance.get_absolute_url()
+            )
+            kwargs.setdefault("web_url", absolute_url)
+        return super().get_context(**kwargs)
+
+    def send(self, *args, **kwargs):
+        res = super().send(*args, **kwargs)
+        if self.web_version:
+            self.instance.content = self.get_html_content()
+            self.instance.subject = self.get_subject()
+            self.instance.to = self.to
+            self.instance.cc = self.cc
+            self.instance.bcc = self.bcc
+            self.instance.save()
+        return res
+
+
+class WebVersionEnhancedEmail(WebVersionMixin, EnhancedEmail):
+    pass
