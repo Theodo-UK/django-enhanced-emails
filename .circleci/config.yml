@@ -35,6 +35,10 @@ commands:
           name: Lint
           command: pipenv run flake8 .
 
+      - run:
+          name: Check imports order
+          command: pipenv run isort --check-only --recursive --diff .
+
 jobs:
   python:
     parameters:

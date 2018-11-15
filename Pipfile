@@ -10,6 +10,7 @@ twine = "*"
 [dev-packages]
 "flake8" = "*"
 black = "*"
+isort = "*"
 
 [pipenv]
 allow_prereleases = true
