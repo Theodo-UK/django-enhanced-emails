@@ -1,36 +1,48 @@
-# django-enhanced-emails
+# django-enhanced-emails 💌
+
+🔋 Batteries-included emails for Django.
+
+- Powerful templating engine
+- Multipart emails by default (HTML + text)
+- Web version rendering (with admin)
+- Easy file attachment
+- and more ...
 
 ## Getting started
 
-- Install the package: `pipenv install django-enhanced-emails` (or, with you're still using pip: `pip install django-enhanced-emails`)
+### Simple setup
+
+- Install the package: `pipenv install django-enhanced-emails`
 - Create a new email class:
+
   ```py
+  # myapp/emails.py
   from enhanced_emails import EnhancedEmail
 
-
   class WelcomeEmail(EnhancedEmail):
-      subject = 'Welcome to our site!'
-      html_template = 'emails/welcome.html'
+      subject = "Welcome to our site!"
+      html_template = "emails/welcome.html"
   ```
-  Where `emails/welcome.html` could be:
+
   ```html
-  <strong>Welcome to our site {{first_name}}!</strong>
+  <!-- myapp/templates/emails/welcome.html -->
+  <strong>Welcome to our site {{first_name}}!</strong><br />
 
-  Best,
-  The OurSite team
+  Best, The OurSite team
   ```
 
-- Instanciate a mail and send it:
+- Instanciate an email and send it:
   ```py
   email = WelcomeEmail(
       to=[user.email],
       context={
-        'first_name': user.first_name
+        "first_name": user.first_name
       }
   )
   email.send()
   ```
 - ✨ All done! Our user received something like:
+
   ```email
   Content-Type: multipart/alternative;
   boundary="===============7747654958126582044=="
@@ -61,6 +73,64 @@
   The OurSite team
   --===============7747654958126582044==--
   ```
+
+### Advanced setup (for web version rendering)
+
+- Add the `enhanced_emails` app to `INSTALLED_APPS`:
+  ```py
+  # settings.py
+  INSTALLED_APPS = [
+      ...
+      "enhanced_emails",
+      ...
+  ]
+  ```
+- Add a new entry to `urlpatterns`:
+  ```py
+  # urls.py
+  urlpatterns = [
+      path("admin/", admin.site.urls),
+      path("emails/", include("enhanced_emails.urls")),
+      ...
+  ]
+  ```
+- Use `WebVersionEnhancedEmail` instead of `EnhancedEmail`:
+
+  ```py
+  from enhanced_emails import WebVersionEnhancedEmail
+
+  class WelcomeEmail(WebVersionEnhancedEmail):
+      subject = "Welcome to our site!"
+      html_template = "emails/welcome.html"
+  ```
+
+- Use the `web_url` variable in the email template:
+
+  ```html
+  <!-- myapp/templates/emails/welcome.html -->
+  <strong>Welcome to our site {{ first_name }}!</strong><br />
+
+  Best, The OurSite team<br />
+
+  <a href="{{ web_url }}">View in browser</a>
+  ```
+
+- Instanciate an email and send it (notice that we need to pass the request as well now):
+
+  ```py
+  email = WelcomeEmail(
+      to=[user.email],
+      context={
+        'first_name': user.first_name
+      },
+      request=request
+  )
+  email.send()
+  ```
+
+- The email is visible in the admin and on the site! ✨<br/>
+  ![A sent email in the admin](./docs/admin.png)
+  ![The web version of the email](./docs/web_version.png)
 
 ## Development
 
